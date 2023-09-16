@@ -23,5 +23,7 @@ namespace KB_WebAPI.Models
         [Required]
         [MaxLength(50)]
         public string Country { get; set; } = string.Empty; 
+
+        public csAttraction Attraction { get; set; }
     }
 }

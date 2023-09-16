@@ -17,7 +17,6 @@ namespace KB_WebAPI.Models
         [MaxLength(200)]
         public string Description { get; set; } = string.Empty;
         
-        [Required]
         public csAddress Address { get; set; } = null;         //One Attraction has one Address 
         public List<csReview> Review { get; set; } = null;     //One Attraction has a list of Review 0-20 reviews
         public List<csRating> Rating { get; set; } = null;     //One Attraction has a list of Rating 0-20 ratings

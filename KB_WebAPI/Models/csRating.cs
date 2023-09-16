@@ -10,5 +10,8 @@ namespace KB_WebAPI.Models
         [MaxLength(5)]
         public int Rating {  get; set; }
 
+        public csUser UserId { get; set; }
+        public csAttraction Attraction { get; set; } 
+
     }
 }

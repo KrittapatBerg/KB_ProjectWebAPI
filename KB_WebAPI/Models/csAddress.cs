@@ -5,7 +5,7 @@ namespace KB_WebAPI.Models
 {
     public class csAddress
     {
-        [Key]
+        [Key]       //EFC Code first
         public Guid AddressId { get; set; }
         
         [Required]

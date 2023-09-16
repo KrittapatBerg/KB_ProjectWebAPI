@@ -7,10 +7,13 @@ namespace KB_WebAPI.Models
     {
         [Key]       //EFC code first 
         public Guid UserId { get; set; }
+        
         [Required]
         [MaxLength(50)]
         public string UserName { get; set; } = string.Empty;
+        
         [EmailAddress]
+        [MaxLength(100)]
         public string UserEmail { get; set; }
 
         public List<string> Review { get; set; } = null;    //one User has a list of reviews 

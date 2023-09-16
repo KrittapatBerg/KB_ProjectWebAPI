@@ -16,7 +16,7 @@ namespace KB_WebAPI.Models
         [MaxLength(100)]
         public string UserEmail { get; set; }
 
-        public List<string> Review { get; set; } = null;    //one User has a list of reviews 
-        public List<int> Rating { get; set; } = null;       //one User has a list of ratings 
+        public List<csReview> Reviews { get; set; } = null;    //one User has a list of reviews 
+        public List<csRating> Ratings { get; set; } = null;       //one User has a list of ratings 
     }
 }

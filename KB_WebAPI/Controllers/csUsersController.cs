@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using KB_WebAPI;
 using KB_WebAPI.Models;
+using KB_WebAPI.databaseContext;
 
 namespace KB_WebAPI.Controllers
 {
@@ -14,9 +14,9 @@ namespace KB_WebAPI.Controllers
     [ApiController]
     public class csUsersController : ControllerBase
     {
-        private readonly sqlContext _context;
+        private readonly DataContext _context;
 
-        public csUsersController(sqlContext context)
+        public csUsersController(DataContext context)
         {
             _context = context;
         }

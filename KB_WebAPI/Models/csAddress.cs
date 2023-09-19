@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
 
 namespace KB_WebAPI.Models
 {
-    public class csAddress
+    public class csAddress : ISeed<csAddress>
     {
         [Key]       //EFC Code first
         public Guid AddressId { get; set; }
@@ -23,7 +24,25 @@ namespace KB_WebAPI.Models
         [Required]
         [MaxLength(50)]
         public string Country { get; set; } = string.Empty; 
-        public Guid AttractionId { get; set; }
+        public Guid AttractionId { get; set; } //FK
         public csAttraction Attraction { get; set; }
+        public bool Seeded { get; set; }
+        public csAddress() { } 
+
+        public csAddress Seed(SeedGenerator seedGen)
+        {
+            Seeded = true;
+            AddressId = Guid.NewGuid();
+            Country = seedGen.Country;
+            City = seedGen.City;
+            StreetName = seedGen.StreetName;
+            Zipcode = seedGen.Zipcode; 
+            
+            return this;
+        }
+    }
+
+    public interface ISeed<T>
+    {
     }
 }

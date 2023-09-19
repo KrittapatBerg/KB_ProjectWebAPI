@@ -1,3 +1,5 @@
+using KB_WebAPI.databaseContext;
+using KB_WebAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace KB_WebAPI
@@ -11,11 +13,12 @@ namespace KB_WebAPI
             // Add services to the container.
 
             builder.Services.AddControllers();  //Dependecy Injection
+            builder.Services.AddTransient<SeedGenerator>();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddDbContext<sqlContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("sql")));
+            builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             var app = builder.Build();
 
@@ -24,7 +27,31 @@ namespace KB_WebAPI
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+            
+                using (var scope = app.Services.CreateScope())
+                {
+                    var dataContext = scope.ServiceProvider.GetRequiredService<DataContext>();
+                    SeedGenerator.SeedData(dataContext); 
+                    
+                }
             }
+
+            
+            /*
+            if (args.Length == 1 && args[0].ToLower() == "seeddata")
+                SeedData(app);
+
+            void SeedData(IHost app)
+            {
+                var scopedFactory = app.Services.GetService<IServiceScopeFactory>();
+
+                using (var scope = scopedFactory.CreateScope()) 
+                {
+                    var service = scope.ServiceProvider.GetService<SeedGenerator>();
+                    service.SeedData(service);
+                }
+            }
+            */
 
             app.UseHttpsRedirection();
 

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace KB_WebAPI.Models
 {
-    public class csAddress : ISeed<csAddress>
+    public class csAddress //: ISeed<csAddress>
     {
         [Key]       //EFC Code first
         public Guid AddressId { get; set; }
@@ -42,7 +42,7 @@ namespace KB_WebAPI.Models
         }
     }
 
-    public interface ISeed<T>
+    /*public interface ISeed<T>
     {
-    }
+    }*/
 }

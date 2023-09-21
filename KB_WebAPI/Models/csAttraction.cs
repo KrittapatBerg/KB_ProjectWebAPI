@@ -3,16 +3,22 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KB_WebAPI.Models
 {
-    public class csAttraction : ISeed<csAttraction>
+    public class csAttraction //: ISeed<csAttraction>
     {
+        public enum Category { Park, Restaurant, Café, Museum, Architecture, Waterfall, Beach, Forest, Hotel };
         [Key]       //EFC code first 
         public Guid AttractionId { get; set; }
         
         [Required]
         [MaxLength(100)]
         public string AttractionName { get; set; } = string.Empty;
-        //public enum Category { Park, Restaurant, Café, Museum, Architecture, Waterfall, Beach, Forest };
-        
+        public Category AttractionCategory { get; set; }
+        public string strCategory
+        {
+            get => AttractionCategory.ToString();
+            set { }
+        } 
+
         [Required]
         [MaxLength(200)]
         public string Description { get; set; } = string.Empty;
@@ -25,6 +31,7 @@ namespace KB_WebAPI.Models
             Seeded = true;
             AttractionId = Guid.NewGuid();
             AttractionName = seedGen.Attraction;
+            //AttractionCategory = 
             Description = seedGen.Description;
             return this;
         }

@@ -4,8 +4,8 @@ namespace KB_WebAPI.Models
 {
     public class SeedGenerator : Random
     {
+        
         #region Address generator
-
         string[] _streetName = "Flower Rd, Moon street, Ion Rd, Riverflow, st.Septon, Sun n Star street, Dark horse Rd".Split(", ");
 
         string[] _country = "High Tower, Middle Korea, King's Landing, Casterly Rock, South Sea, Winterfell, Central Highgarden, Black Sea, South Dothraki, North Sea, Central Sea".Split(", ");
@@ -13,7 +13,6 @@ namespace KB_WebAPI.Models
         string[] _city = "New Sea, Black Sea, Dark Sea, Bright Sea, Star Sea, Old Sea, Blue Sea, North Sea, Iron Sea".Split(", ");
 
         public int Zipcode => this.Next(10110, 50550);
-
         public string Country => _country[Next(0, _country.Length)];
         public string StreetName => _streetName[Next(0, _streetName.Length)];
         public string City => _city[Next(0, _city.Length)];
@@ -23,12 +22,21 @@ namespace KB_WebAPI.Models
 
         string[] _attractionName = "Sunshine Bay, Raiya Beach, Lego Land, Aquarium, Sea World, Niagara Fall, Redwood, Fancy Raw".Split(", ");
 
-        string[] _description = "Beautiful, LOVE IT, Nature Best, Great to visit with kids".Split(", ");
+        string[] _description =
+        {
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod " +
+            "tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, " +
+            "quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " +
+            "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat " +
+            "nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui " +
+            "officia deserunt mollit anim id est laborum."
+        };
 
         public string Attraction => _attractionName[Next(0, _attractionName.Length)];
         public string Description => _description[Next(0, _description.Length)];
         #endregion
-
+        
+        
         public static void SeedData(DataContext context)
         {
             if (!context.Addresses.Any()) 

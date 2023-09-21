@@ -21,7 +21,7 @@ namespace KB_WebAPI.Controllers
         [ProducesResponseType(400, Type = typeof(string))]
         public async Task<IActionResult> Seed(string address)
         {
-            address ??= "1000";
+            
             try
             {
                     var sGen = new SeedGenerator();

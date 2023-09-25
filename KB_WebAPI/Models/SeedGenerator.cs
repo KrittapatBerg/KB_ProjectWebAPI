@@ -21,6 +21,8 @@ namespace KB_WebAPI.Models
         #region Attraction generator 
 
         string[] _attractionName = "Sunshine Bay, Raiya Beach, Lego Land, Aquarium, Sea World, Niagara Fall, Redwood, Fancy Raw".Split(", ");
+        
+        string[] _category = "Park, Restaurant, Café, Museum, Architecture, Waterfall, Beach, Forest, Hotel".Split(", ");
 
         string[] _description =
         {
@@ -32,11 +34,19 @@ namespace KB_WebAPI.Models
             "officia deserunt mollit anim id est laborum."
         };
 
+
         public string Attraction => _attractionName[Next(0, _attractionName.Length)];
+        public string Category => _category[Next(0, _category.Length)];
         public string Description => _description[Next(0, _description.Length)];
         #endregion
-        
-        
+
+        #region User generator 
+        string[] _username = "Kitty, Jon, Jeff, Joff, Tuna, Jim, Pam, Paul, Roger, Steve, Louis, Bryan, David, Rebecca, Clerance".Split(", ");
+
+        string[] _mail = "icloud.com, me.com, buzz.com, lightning.com, speedy.com".Split(", ");
+        #endregion
+
+
         public static void SeedData(DataContext context)
         {
             if (!context.Addresses.Any()) 

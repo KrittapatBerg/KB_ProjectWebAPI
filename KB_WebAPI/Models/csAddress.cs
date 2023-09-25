@@ -13,7 +13,6 @@ namespace KB_WebAPI.Models
         [MaxLength(50)]
         public string StreetName { get; set; } = string.Empty;
 
-        [Required]
         [MaxLength(10)]
         public int Zipcode { get; set; }
 
@@ -24,11 +23,15 @@ namespace KB_WebAPI.Models
         [Required]
         [MaxLength(50)]
         public string Country { get; set; } = string.Empty; 
-        public Guid AttractionId { get; set; } //FK
+       
+        public Guid? AttractionId { get; set; }
         public csAttraction Attraction { get; set; }
-        public bool Seeded { get; set; }
-        public csAddress() { } 
 
+       
+        //public bool Seeded { get; set; }
+        //public csAddress() { } 
+
+        /*
         public csAddress Seed(SeedGenerator seedGen)
         {
             Seeded = true;
@@ -39,7 +42,7 @@ namespace KB_WebAPI.Models
             Zipcode = seedGen.Zipcode; 
             
             return this;
-        }
+        } */
     }
 
     /*public interface ISeed<T>

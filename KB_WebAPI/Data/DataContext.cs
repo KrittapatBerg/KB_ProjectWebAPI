@@ -1,5 +1,6 @@
 ﻿using KB_WebAPI.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 
 namespace KB_WebAPI.databaseContext
 {
@@ -19,6 +20,8 @@ namespace KB_WebAPI.databaseContext
         #region Model creating
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+            
             modelBuilder.Entity<csAddress>()
                 .HasKey(a => a.AddressId);
 
@@ -28,11 +31,10 @@ namespace KB_WebAPI.databaseContext
             modelBuilder.Entity<csAttraction>()
                 .HasOne(a => a.Address)
                 .WithOne(a => a.Attraction)
-                .HasForeignKey<csAddress>(a => a.AttractionId)
-                .IsRequired(false);      //use this if the relation is optional
+                .HasForeignKey<csAddress>(a => a.AddressId)
+                .IsRequired(false);     //use this if the relation is optional
+            
 
-
-            base.OnModelCreating(modelBuilder);
         }
         #endregion
     }

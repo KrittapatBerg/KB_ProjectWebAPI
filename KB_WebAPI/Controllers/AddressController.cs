@@ -15,6 +15,7 @@ namespace KB_WebAPI.Controllers
     [Route("api/[controller]/action")]
     public class AddressController : ControllerBase
     {
+        /*
         [HttpGet]
         [ActionName("Seed")]
         [ProducesResponseType(200, Type = typeof(string))]
@@ -39,6 +40,6 @@ namespace KB_WebAPI.Controllers
             {
                 return BadRequest(ex.Message);
             }
-        }
+        }*/
     }
 }

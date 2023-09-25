@@ -1,5 +1,7 @@
 using KB_WebAPI.databaseContext;
+using KB_WebAPI.Interfaces;
 using KB_WebAPI.Models;
+using KB_WebAPI.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace KB_WebAPI
@@ -13,9 +15,8 @@ namespace KB_WebAPI
             // Add services to the container.
 
             builder.Services.AddControllers();  //Dependecy Injection
-            builder.Services.AddTransient<SeedGenerator>();
-            
-            //builder.Services.AddScoped<IAddress, csAddress>();
+            builder.Services.AddTransient<SeedGenerator>(); //seeding
+            builder.Services.AddScoped<IAttraction, AttractionRepository>();
             
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();

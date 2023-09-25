@@ -12,25 +12,25 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KB_WebAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230918171706_CreateInitial")]
-    partial class CreateInitial
+    [Migration("20230922085959_InitialCreate")]
+    partial class InitialCreate
     {
+        /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.22")
+                .HasAnnotation("ProductVersion", "7.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("KB_WebAPI.Models.csAddress", b =>
                 {
                     b.Property<Guid>("AddressId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("AttractionId")
+                    b.Property<Guid?>("AttractionId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("City")
@@ -43,9 +43,6 @@ namespace KB_WebAPI.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<bool>("Seeded")
-                        .HasColumnType("bit");
-
                     b.Property<string>("StreetName")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -57,9 +54,6 @@ namespace KB_WebAPI.Migrations
 
                     b.HasKey("AddressId");
 
-                    b.HasIndex("AttractionId")
-                        .IsUnique();
-
                     b.ToTable("Addresses");
                 });
 
@@ -69,18 +63,21 @@ namespace KB_WebAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("AddressId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("AttractionName")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<string>("Category")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
-
-                    b.Property<bool>("Seeded")
-                        .HasColumnType("bit");
 
                     b.HasKey("AttractionId");
 
@@ -93,21 +90,21 @@ namespace KB_WebAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("AttractionId")
+                    b.Property<Guid?>("AttractionId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Rating")
                         .HasMaxLength(5)
                         .HasColumnType("int");
 
-                    b.Property<Guid>("UserId1")
+                    b.Property<Guid?>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("RatingId");
 
                     b.HasIndex("AttractionId");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Ratings");
                 });
@@ -118,22 +115,21 @@ namespace KB_WebAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("AttractionId")
+                    b.Property<Guid?>("AttractionId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Review")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<Guid>("UserId1")
+                    b.Property<Guid?>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ReviewId");
 
                     b.HasIndex("AttractionId");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Reviews");
                 });
@@ -145,7 +141,6 @@ namespace KB_WebAPI.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("UserEmail")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -163,7 +158,7 @@ namespace KB_WebAPI.Migrations
                 {
                     b.HasOne("KB_WebAPI.Models.csAttraction", "Attraction")
                         .WithOne("Address")
-                        .HasForeignKey("KB_WebAPI.Models.csAddress", "AttractionId");
+                        .HasForeignKey("KB_WebAPI.Models.csAddress", "AddressId");
 
                     b.Navigation("Attraction");
                 });
@@ -172,44 +167,35 @@ namespace KB_WebAPI.Migrations
                 {
                     b.HasOne("KB_WebAPI.Models.csAttraction", "Attraction")
                         .WithMany("Rating")
-                        .HasForeignKey("AttractionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AttractionId");
 
-                    b.HasOne("KB_WebAPI.Models.csUser", "UserId")
+                    b.HasOne("KB_WebAPI.Models.csUser", "User")
                         .WithMany("Ratings")
-                        .HasForeignKey("UserId1")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Attraction");
 
-                    b.Navigation("UserId");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("KB_WebAPI.Models.csReview", b =>
                 {
                     b.HasOne("KB_WebAPI.Models.csAttraction", "Attraction")
                         .WithMany("Review")
-                        .HasForeignKey("AttractionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AttractionId");
 
-                    b.HasOne("KB_WebAPI.Models.csUser", "UserId")
+                    b.HasOne("KB_WebAPI.Models.csUser", "User")
                         .WithMany("Reviews")
-                        .HasForeignKey("UserId1")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Attraction");
 
-                    b.Navigation("UserId");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("KB_WebAPI.Models.csAttraction", b =>
                 {
-                    b.Navigation("Address")
-                        .IsRequired();
+                    b.Navigation("Address");
 
                     b.Navigation("Rating");
 

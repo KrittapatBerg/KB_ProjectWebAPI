@@ -41,24 +41,37 @@ namespace KB_WebAPI.Controllers
         }
 
         //GET : api/AttractionId
-        [HttpGet("{id}")]
-        public async Task<ActionResult<csAttraction>> GetAttractionId(Guid id)
+        [HttpGet("{attractionId}")]
+        [ProducesResponseType(typeof(csAttraction), 200)]
+        [ProducesResponseType(400)]
+        public async Task<ActionResult<csAttraction>> getAttractionById(Guid id)
         {
-            if(_context.Attractions == null)
-            {
+            if(!_attractionRepo.attractionExists(id))
                 return NotFound();
-            }
-            var attraction = await _context.Attractions.FindAsync(id);
 
-            if (attraction == null)
-            {
-                return NotFound();
-            }
-            return attraction;
+            var attraction = _attractionRepo.getAttractionById(id);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+           
+            return Ok(attraction);
         }
 
-        //PUT : api/Attraction
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> PutAttraction(Guid id, csAttraction attraction){}
+        [HttpGet("{attractionId}/ rating")]
+        [ProducesResponseType(typeof(decimal), 200)]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> getAttractionRating(Guid ratingId)
+        {
+            if(!_attractionRepo.attractionExists(ratingId))
+                return NotFound();
+
+            var rating = _attractionRepo.getAttractionRating(ratingId);
+
+            if (!ModelState.IsValid)
+                return BadRequest(); 
+            return Ok(rating);
+        }
+
+        //[HttpGet("{category}")]
     }
 }

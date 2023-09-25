@@ -16,6 +16,7 @@ namespace KB_WebAPI
 
             builder.Services.AddControllers();  //Dependecy Injection
             builder.Services.AddTransient<SeedGenerator>(); //seeding
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             builder.Services.AddScoped<IAttraction, AttractionRepository>();
             
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

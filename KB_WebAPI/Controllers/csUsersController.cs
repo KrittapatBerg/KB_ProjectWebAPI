@@ -10,8 +10,8 @@ using KB_WebAPI.databaseContext;
 
 namespace KB_WebAPI.Controllers
 {
-    [Route("api/[controller]")]     //this one c# generate it for me 
-    [ApiController]
+    [Route("api/[controller]")]     //this one c# generate it for me. 
+    [ApiController]                 //Look at this later 
     public class csUsersController : ControllerBase
     {
         private readonly DataContext _context;

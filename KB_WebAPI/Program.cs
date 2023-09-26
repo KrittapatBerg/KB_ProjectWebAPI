@@ -18,6 +18,9 @@ namespace KB_WebAPI
             builder.Services.AddTransient<SeedGenerator>(); //seeding
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             builder.Services.AddScoped<IAttraction, AttractionRepository>();
+            builder.Services.AddScoped<IAddress, AddressRepository>();
+            builder.Services.AddScoped<IUser, UserRepository>(); 
+            builder.Services.AddScoped<IReview, ReviewRepository>();
             
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();

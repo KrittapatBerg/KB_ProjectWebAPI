@@ -7,7 +7,9 @@ using Microsoft.AspNetCore.Http;
 using KB_WebAPI.Models;
 using KB_WebAPI.databaseContext;
 using Microsoft.EntityFrameworkCore;
-
+using KB_WebAPI.Interfaces;
+using AutoMapper;
+using KB_WebAPI.DTO;
 
 namespace KB_WebAPI.Controllers
 {
@@ -15,6 +17,42 @@ namespace KB_WebAPI.Controllers
     [Route("api/[controller]/action")]
     public class AddressController : ControllerBase
     {
+        private readonly IAddress _addressRepo;
+        private readonly IMapper _mapper;
+        public AddressController(IAddress addressRepo, IMapper mapper)
+        {
+            _addressRepo = addressRepo;
+            _mapper = mapper;
+        }
+
+        [HttpGet]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<csAddress>))]
+        [ProducesResponseType(400)]
+        public IActionResult GetAddresses()
+        {
+            var addresses = _mapper.Map<List<AddressDto>>(_addressRepo.GetAddresses());
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Ok(addresses); 
+        }
+
+        [HttpGet("{addressId}")]
+        [ProducesResponseType(typeof(csAddress), 200)]
+        [ProducesResponseType(400)]
+        public async Task<ActionResult<csAddress>> GetAddress(Guid id)
+        {
+            if (!_addressRepo.AddressExists(id))
+                return NotFound();
+
+            var address = _mapper.Map<AddressDto>(_addressRepo.GetAddress(id));
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Ok(address);
+        }
         /*
         [HttpGet]
         [ActionName("Seed")]

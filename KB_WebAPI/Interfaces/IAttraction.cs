@@ -4,12 +4,14 @@ namespace KB_WebAPI.Interfaces
 {
     public interface IAttraction
     {
-        List<csAttraction> getAttractions(); 
-        csAttraction getAttractionById(Guid id);
-        csAttraction getAttraction(string name);
+        List<csAttraction> GetAttractions(); 
+        csAttraction GetAttractionById(Guid id);
+        csAttraction GetAttraction(string name);
         csAttraction GetAttractionByCategory (string category);
-        decimal getAttractionRating(Guid ratingId);
-        bool attractionExists(Guid attractionid);
+        decimal GetAttractionRating(Guid ratingId);
+        bool AttractionExists(Guid attractionid);
+        //List<csAttraction> GetAttractionReview(Guid id);
+        //get a list of Reviews of one Attraction 
 
     }
 }

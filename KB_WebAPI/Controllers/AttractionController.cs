@@ -1,4 +1,6 @@
-﻿using KB_WebAPI.databaseContext;
+﻿using AutoMapper;
+using KB_WebAPI.databaseContext;
+using KB_WebAPI.DTO;
 using KB_WebAPI.Interfaces;
 using KB_WebAPI.Models;
 using Microsoft.AspNetCore.Http;
@@ -12,11 +14,11 @@ namespace KB_WebAPI.Controllers
     public class AttractionController : ControllerBase
     {
         private readonly IAttraction _attractionRepo;
-        private readonly DataContext _context;
-        public AttractionController(IAttraction attractionRepo, DataContext context)
+        private readonly IMapper _mapper;
+        public AttractionController(IAttraction attractionRepo, IMapper mapper)
         {
             _attractionRepo = attractionRepo;
-            _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/Attractions 
@@ -30,14 +32,16 @@ namespace KB_WebAPI.Controllers
             return await _context.Attractions.ToListAsync(); 
         }*/
         [HttpGet]
-        //[ProducesResponseType(200, typeof(IEnumerable<csAttraction>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<csAttraction>))]
+        [ProducesResponseType(400)]
         public IActionResult GetAttractions()
         {
-            var attraction = _attractionRepo.getAttractions();
+            var attractions = _mapper.Map<List<AttractionDto>>(_attractionRepo.GetAttractions());
+            
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
         
-            return Ok(attraction);
+            return Ok(attractions);
         }
 
         //GET : api/AttractionId
@@ -46,10 +50,10 @@ namespace KB_WebAPI.Controllers
         [ProducesResponseType(400)]
         public async Task<ActionResult<csAttraction>> getAttractionById(Guid id)
         {
-            if(!_attractionRepo.attractionExists(id))
+            if(!_attractionRepo.AttractionExists(id))
                 return NotFound();
 
-            var attraction = _attractionRepo.getAttractionById(id);
+            var attraction = _mapper.Map<csAttraction>(_attractionRepo.GetAttractionById(id));
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -62,16 +66,27 @@ namespace KB_WebAPI.Controllers
         [ProducesResponseType(400)]
         public async Task<IActionResult> getAttractionRating(Guid ratingId)
         {
-            if(!_attractionRepo.attractionExists(ratingId))
+            if(!_attractionRepo.AttractionExists(ratingId))
                 return NotFound();
 
-            var rating = _attractionRepo.getAttractionRating(ratingId);
+            var rating = _attractionRepo.GetAttractionRating(ratingId);
 
             if (!ModelState.IsValid)
                 return BadRequest(); 
             return Ok(rating);
         }
 
-        //[HttpGet("{category}")]
+        [HttpGet("{category}")]
+        [ProducesResponseType(typeof(string), 200)]
+        [ProducesResponseType(400)]
+        public IActionResult GetAttractionByCategory(string categorii)
+        {
+            var category = _mapper.Map<List<AttractionDto>>(_attractionRepo.GetAttractionByCategory(categorii));
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Ok(category);
+        }
     }
 }

@@ -9,6 +9,10 @@ namespace KB_WebAPI.Helper
         public MappingProfiles()
         {
             CreateMap<csAttraction, AttractionDto>();
+            CreateMap<csAddress, AddressDto>();
+            CreateMap<csUser, UserDto>();
+            CreateMap<csReview, ReviewDto>(); 
+            CreateMap<csRating, RatingDto>(); 
         }
     }
 }

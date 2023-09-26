@@ -69,7 +69,7 @@ namespace KB_WebAPI.Models
                 };
                 context.Addresses.Add(address2);
 
-                context.SaveChanges(); 
+                //context.SaveChanges(); 
             }
         }
         /*
